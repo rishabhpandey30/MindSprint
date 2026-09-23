@@ -1,0 +1,86 @@
+.timerContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  transition: all var(--transition-base);
+  user-select: none;
+}
+
+.timerIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timerContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.timerLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.timerDigits {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+/* Normal State */
+.normal {
+  border-color: var(--color-border);
+}
+.normal .icon {
+  color: var(--color-primary);
+}
+
+/* Warning State (<= 25%) */
+.warning {
+  border-color: rgba(245, 158, 11, 0.4);
+  background-color: rgba(245, 158, 11, 0.05);
+}
+.warning .icon {
+  color: #f59e0b;
+}
+.warning .timerDigits {
+  color: #f59e0b;
+}
+
+/* Critical State (<= 10%) */
+.critical {
+  border-color: rgba(239, 68, 68, 0.5);
+  background-color: rgba(239, 68, 68, 0.08);
+  animation: subtlePulse 1.5s infinite ease-in-out;
+}
+.critical .icon {
+  color: #ef4444;
+}
+.critical .timerDigits {
+  color: #ef4444;
+  font-weight: 800;
+}
+
+@keyframes subtlePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px 2px rgba(239, 68, 68, 0.15);
+  }
+}

@@ -1,0 +1,199 @@
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-4);
+  animation: fadeIn 0.25s ease-out;
+}
+
+.instructionBanner {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.instructionText {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.instructionText strong {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.bubblesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  width: 100%;
+  max-width: 760px;
+}
+
+@media (max-width: 680px) {
+  .bubblesGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+}
+
+/* Bubble Styling */
+.bubble {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-6) var(--space-4);
+  min-height: 180px;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  outline: none;
+  user-select: none;
+}
+
+.bubble:hover:not(:disabled) {
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.12);
+}
+
+.bubble:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.bubbleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.bubbleLetter {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+  background: var(--color-bg);
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.orderBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  font-weight: 800;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.35);
+  animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.expressionContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--space-3) 0;
+}
+
+.expression {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.bubbleHint {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+
+/* Selected State */
+.selected {
+  border-color: var(--color-primary);
+  background: rgba(79, 70, 229, 0.04);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.16);
+}
+
+/* Evaluation States */
+.evaluatedCorrect {
+  border-color: var(--color-success) !important;
+  background: rgba(16, 185, 129, 0.08) !important;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2) !important;
+}
+
+.evaluatedIncorrect {
+  border-color: var(--color-danger) !important;
+  background: rgba(239, 68, 68, 0.08) !important;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Footer info */
+.footerInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.selectionProgress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.currentOrderBadge {
+  background: var(--color-bg);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.keyboardHint {
+  font-size: 0.8rem;
+  color: var(--color-text-tertiary);
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

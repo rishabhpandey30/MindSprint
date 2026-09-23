@@ -1,0 +1,112 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: var(--space-2);
+}
+
+.cell {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: 40px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell:hover:not(.current) {
+  border-color: var(--color-primary-muted);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.cell:focus-visible {
+  box-shadow: var(--shadow-focus);
+  outline: none;
+}
+
+/* States */
+.unvisited {
+  border-color: var(--color-border);
+  color: var(--color-text-subtle);
+}
+
+.visited {
+  border-color: var(--color-border-strong);
+  background: var(--color-neutral-50);
+  color: var(--color-text-muted);
+}
+
+.answered {
+  background: var(--color-success-light);
+  border-color: var(--color-success);
+  color: var(--color-success);
+  font-weight: var(--font-weight-semibold);
+}
+
+.flagged {
+  background: var(--color-warning-light);
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+  font-weight: var(--font-weight-semibold);
+}
+
+.current {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+  font-weight: var(--font-weight-semibold);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.flagDot {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 5px;
+  height: 5px;
+  background: var(--color-warning);
+  border-radius: 50%;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dotCurrent { background: var(--color-primary); }
+.dotAnswered { background: var(--color-success); }
+.dotFlagged { background: var(--color-warning); }
+.dotUnvisited { background: var(--color-border-strong); }

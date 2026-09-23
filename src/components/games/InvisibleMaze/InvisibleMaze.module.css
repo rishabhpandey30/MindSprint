@@ -1,0 +1,351 @@
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: var(--space-2);
+  animation: fadeIn 0.25s ease-out;
+}
+
+.objectiveBanner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+}
+
+.objectiveItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.objectiveStep {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.objectiveText {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+.objectiveText strong {
+  color: var(--color-primary);
+}
+
+.objectiveDivider {
+  color: var(--color-text-tertiary);
+  font-weight: 700;
+}
+
+.checkIcon {
+  color: var(--color-success);
+}
+
+.statusToast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: slideDown 0.2s ease-out;
+}
+
+.statusToast.warning {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.statusToast.success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.mazePlayArea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .mazePlayArea {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+}
+
+/* Maze Grid — Clean & Uniform (All walls 100% invisible) */
+.gridWrapper {
+  display: grid;
+  background: var(--color-surface);
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 6px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  width: min(440px, 90vw);
+  height: min(440px, 90vw);
+  box-sizing: border-box;
+  gap: 2px;
+}
+
+.mazeCell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  user-select: none;
+}
+
+/* Markers */
+.startMarker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--color-text-tertiary);
+  font-weight: 800;
+  font-size: 0.75rem;
+}
+
+.keyMarker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 50%;
+  animation: keyGlow 2s infinite ease-in-out;
+}
+
+.keyIcon {
+  color: #d97706;
+}
+
+@keyframes keyGlow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); box-shadow: 0 0 12px rgba(245, 158, 11, 0.4); }
+}
+
+.doorMarker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.doorLocked {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px dashed rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+.doorUnlocked {
+  background: rgba(16, 185, 129, 0.15);
+  border: 2px solid #10b981;
+  color: #059669;
+  animation: doorPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes doorPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); }
+}
+
+.doorText {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* Player Token */
+.playerToken {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+  z-index: 10;
+  transition: transform 0.1s ease;
+}
+
+.playerInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.playerWithKey {
+  background: linear-gradient(135deg, var(--color-primary), #8b5cf6);
+}
+
+.playerKeyBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  background: #f59e0b;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid white;
+}
+
+.playerBump {
+  animation: bumpShake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes bumpShake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(3px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* Controls section */
+.controlsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* D-Pad */
+.dpadContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.dpadMiddleRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dpadCenter {
+  width: 44px;
+  height: 44px;
+  background: var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.dpadBtn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.dpadBtn:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.dpadBtn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.statsCard {
+  display: flex;
+  gap: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 65px;
+}
+
+.statLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.statValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.keyFound {
+  color: var(--color-success);
+}
+
+.keyMissing {
+  color: var(--color-text-tertiary);
+}
+
+.controlsHelp {
+  font-size: 0.8rem;
+  color: var(--color-text-tertiary);
+  text-align: center;
+  max-width: 500px;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
