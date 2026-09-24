@@ -14,8 +14,11 @@
 .headerInner {
   display: flex;
   align-items: center;
-  height: var(--header-height);
+  height: var(--header-height, 60px);
   gap: var(--space-6);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
 }
 
 .logo {
@@ -28,18 +31,39 @@
   text-decoration: none;
 }
 
-.nav { flex: 1; }
+.nav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
 
 .navActive {
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-primary);
   text-decoration: none;
 }
 
+.navLink {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.navLink:hover { color: var(--color-text); }
+
 /* Main */
 .main {
   padding: var(--space-10) 0 var(--space-16);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
 }
 
 .topSection {
@@ -296,8 +320,16 @@
 
 .practiceAreaName {
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text);
+  display: block;
+}
+
+.practiceAreaDesc {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  display: block;
+  margin-top: 2px;
 }
 
 .practiceAreaScore {
