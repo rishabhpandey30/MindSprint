@@ -9,8 +9,8 @@ import { Review } from './pages/Review.jsx';
 
 /** Route guard: redirect to /dashboard if no active assessment */
 function RequireAssessment({ children }) {
-  const { state } = useAssessmentContext();
-  if (!state.isStarted && !state.isCompleted) {
+  const { isStarted, isCompleted } = useAssessmentContext();
+  if (!isStarted && !isCompleted) {
     return <Navigate to="/dashboard" replace />;
   }
   return children;
@@ -18,8 +18,8 @@ function RequireAssessment({ children }) {
 
 /** Route guard: redirect to /dashboard if no completed results */
 function RequireResults({ children }) {
-  const { state } = useAssessmentContext();
-  if (!state.results) {
+  const { results } = useAssessmentContext();
+  if (!results) {
     return <Navigate to="/dashboard" replace />;
   }
   return children;

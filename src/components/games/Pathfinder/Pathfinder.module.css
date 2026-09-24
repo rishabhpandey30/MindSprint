@@ -1,26 +1,33 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Pathfinder Game — CSS Module
+   Mechanic: Select grey tile → ↻ Rotate / ⇆ Reverse → ✓ Check
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Outer container ───────────────────────────────────────────────────── */
 .gameContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-4);
+  gap: 18px;
   width: 100%;
-  max-width: 850px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: var(--space-2);
-  animation: fadeIn 0.25s ease-out;
+  padding: 8px 12px 20px;
+  animation: fadeIn 0.22s ease-out;
 }
 
+/* ─── Objective banner ──────────────────────────────────────────────────── */
 .objectiveBanner {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  padding: var(--space-2) var(--space-6);
-  border-radius: var(--radius-full);
+  padding: 8px 24px;
+  border-radius: 999px;
   box-shadow: var(--shadow-sm);
   text-align: center;
 }
 
 .objectiveText {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
 }
 
@@ -29,133 +36,284 @@
   font-weight: 700;
 }
 
+/* ─── Grid play area (Start | Grid | End) ───────────────────────────────── */
 .gridPlayArea {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 14px;
   width: 100%;
 }
 
-.gridContainer {
-  display: grid;
-  gap: 8px;
-  background: var(--color-surface);
-  border: 3px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-  width: min(440px, 90vw);
-  height: min(440px, 90vw);
-  box-sizing: border-box;
+/* Start / End icon column */
+.startEndIcon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
-/* Path Tile */
+.iconLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+}
+
+/* ─── Grid container ────────────────────────────────────────────────────── */
+.gridContainer {
+  display: grid;
+  gap: 6px;
+  background: var(--color-surface);
+  border: 3px solid var(--color-border);
+  border-radius: 14px;
+  padding: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.07);
+  width: min(420px, 85vw);
+  height: min(420px, 85vw);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* ─── Path tile base ────────────────────────────────────────────────────── */
 .pathTile {
   position: relative;
   width: 100%;
   height: 100%;
-  background: var(--color-bg);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
   padding: 0;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  outline: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   box-sizing: border-box;
   overflow: hidden;
+  transition:
+    border-color 0.14s ease,
+    background 0.14s ease,
+    box-shadow 0.14s ease,
+    transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.pathTile:hover:not(:disabled) {
+/* White / empty cell */
+.tileEmpty {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Grey selectable path tile */
+.tileGrey {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  cursor: pointer;
+}
+
+.tileGrey:hover:not(:disabled) {
   border-color: var(--color-primary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+  background: rgba(99, 102, 241, 0.07);
+  transform: scale(1.04);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.18);
 }
 
-.pathTile:active:not(:disabled) {
+.tileGrey:active:not(:disabled) {
   transform: scale(0.96);
 }
 
-.tileSvg {
-  width: 80%;
-  height: 80%;
-  display: block;
-}
-
-/* Selected Tile State */
+/* Selected tile — yellow border */
 .tileSelected {
-  border-color: var(--color-primary) !important;
-  background: rgba(79, 70, 229, 0.08) !important;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3), 0 6px 16px rgba(79, 70, 229, 0.2) !important;
-  transform: scale(1.04);
-  z-index: 5;
+  border-color: #f59e0b !important;
+  background: rgba(245, 158, 11, 0.08) !important;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3), 0 6px 18px rgba(245, 158, 11, 0.18) !important;
+  transform: scale(1.06) !important;
+  z-index: 4;
+  animation: selectPop 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Solved continuous route highlight */
+@keyframes selectPop {
+  0%   { transform: scale(1); }
+  60%  { transform: scale(1.08); }
+  100% { transform: scale(1.06); }
+}
+
+/* Solved route tiles — green pulse */
 .tileSolved {
   border-color: #10b981 !important;
-  background: rgba(16, 185, 129, 0.1) !important;
-  animation: pulseSolved 1.5s infinite ease-in-out;
+  background: rgba(16, 185, 129, 0.08) !important;
+  animation: pulseSolved 1.8s ease-in-out infinite;
 }
 
 @keyframes pulseSolved {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 12px 3px rgba(16, 185, 129, 0.3);
-  }
+  0%,100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.35); }
+  50%     { box-shadow: 0 0 12px 4px rgba(16, 185, 129, 0.22); }
 }
 
-.tileStart, .tileEnd {
+/* Terminal (Start / End) tiles */
+.tileTerminal {
+  background: rgba(241, 245, 249, 0.55);
+  border-color: transparent;
   cursor: default;
-  background: rgba(241, 245, 249, 0.7);
 }
 
-/* Footer panel */
-.footerPanel {
+/* SVG inside tile */
+.tileSvg {
+  width: 82%;
+  height: 82%;
+  display: block;
+  pointer-events: none;
+}
+
+/* ─── Controls panel ────────────────────────────────────────────────────── */
+.controlsPanel {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
+  gap: 10px;
+  width: 100%;
 }
 
-.swapsCounter {
+/* Action buttons row */
+.actionButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.actionBtn {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-size: 0.95rem;
+  gap: 7px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition:
+    background 0.14s, border-color 0.14s, box-shadow 0.14s, transform 0.12s;
+  white-space: nowrap;
+}
+
+.actionBtn:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.18);
+  transform: translateY(-1px);
+}
+
+.actionBtn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* Check button — stands out */
+.actionBtnCheck {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.actionBtnCheck:hover:not(:disabled) {
+  background: #4338ca;
+  border-color: #4338ca;
+  color: white;
+}
+
+/* Disabled state */
+.actionBtnDisabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Invalid feedback flash */
+.actionBtnInvalid {
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  color: white !important;
+  animation: shakeBtn 0.4s ease;
+}
+
+@keyframes shakeBtn {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-5px); }
+  40%      { transform: translateX(5px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+/* ─── Status row ────────────────────────────────────────────────────────── */
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.movesCounter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
   color: var(--color-text-secondary);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  padding: var(--space-1) var(--space-4);
-  border-radius: var(--radius-full);
-}
-
-.swapIcon {
-  color: var(--color-primary);
+  padding: 5px 16px;
+  border-radius: 999px;
 }
 
 .optimalHint {
+  font-size: 0.76rem;
+  color: var(--color-text-tertiary);
+}
+
+.efficiencyBadge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.18);
+}
+
+.efficiencyBadge[data-good="true"] {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.22);
+}
+
+/* ─── Hint text ─────────────────────────────────────────────────────────── */
+.interactionHint {
   font-size: 0.8rem;
   color: var(--color-text-tertiary);
-}
-
-.interactionHint {
-  font-size: 0.82rem;
-  color: var(--color-text-tertiary);
   text-align: center;
+  min-height: 20px;
 }
 
-.swapActiveHint {
-  color: var(--color-primary);
+.solvedHint {
+  color: #10b981;
   font-weight: 600;
+  font-size: 0.86rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
+.invalidHint {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+/* ─── Fade-in animation ─────────────────────────────────────────────────── */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

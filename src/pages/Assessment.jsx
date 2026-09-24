@@ -59,11 +59,23 @@ export default function Assessment() {
   // Redirect if not started or when fully finished
   useEffect(() => {
     if (!isStarted) {
-      startAssessment(); // Automatically start session if navigating to /assessment
+      startAssessment();
     } else if (phase === 'ALL_RESULTS') {
       navigate('/results');
     }
   }, [isStarted, phase, navigate, startAssessment]);
+
+  // Helper: finish and go to results
+  const handleFinishAndResults = () => {
+    finishAssessment();
+    navigate('/results');
+  };
+
+  // Helper: finish and go to dashboard
+  const handleGoToDashboard = () => {
+    finishAssessment();
+    navigate('/dashboard');
+  };
 
   if (!isStarted || !games) {
     return null;
@@ -275,22 +287,24 @@ export default function Assessment() {
         )}
 
         {/* 3. GAME SUMMARY (AFTER 25 LEVELS OF SELECTED GAME) */}
-        {phase === 'GAME_SUMMARY' && currentConfig && (
+        {phase === 'GAME_SUMMARY' && (
           <div className={styles.summaryCard}>
             <div className={styles.summaryIconWrapper}>
               <Award size={36} className={styles.summaryAwardIcon} />
             </div>
 
-            <h2 className={styles.summaryTitle}>{currentConfig.title} Complete</h2>
+            <h2 className={styles.summaryTitle}>
+              {currentConfig ? currentConfig.title : 'Game'} Complete!
+            </h2>
             <p className={styles.summarySubtitle}>
-              You have completed all 25 levels of {currentConfig.title}!
+              You have completed all 25 levels.
             </p>
 
             <div className={styles.summaryStatsGrid}>
               <div className={styles.statBox}>
                 <CheckCircle size={20} className={styles.statIconSuccess} />
                 <span className={styles.statBoxValue}>
-                  {activeGameRecords.filter((r) => r.correct).length} / 25
+                  {activeGameRecords.filter((r) => r.correct).length} / {activeGameRecords.length}
                 </span>
                 <span className={styles.statBoxLabel}>Solved</span>
               </div>
@@ -298,7 +312,9 @@ export default function Assessment() {
               <div className={styles.statBox}>
                 <Zap size={20} className={styles.statIconAccent} />
                 <span className={styles.statBoxValue}>
-                  {Math.round((activeGameRecords.filter((r) => r.correct).length / 25) * 100)}%
+                  {activeGameRecords.length > 0
+                    ? Math.round((activeGameRecords.filter((r) => r.correct).length / activeGameRecords.length) * 100)
+                    : 0}%
                 </span>
                 <span className={styles.statBoxLabel}>Accuracy</span>
               </div>
@@ -321,18 +337,28 @@ export default function Assessment() {
                 onClick={returnToSelection}
                 className={styles.summaryBtn}
               >
-                <span>Choose Another Game</span>
-                <ArrowRight size={18} />
+                <RotateCcw size={18} />
+                <span>Play Another Game</span>
               </Button>
 
               <Button
                 variant="secondary"
                 size="lg"
-                onClick={finishAssessment}
+                onClick={handleFinishAndResults}
                 className={styles.summaryBtn}
               >
                 <BarChart2 size={18} />
                 <span>View Full Results</span>
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="lg"
+                onClick={handleGoToDashboard}
+                className={styles.summaryBtn}
+              >
+                <ArrowRight size={18} />
+                <span>Go to Dashboard</span>
               </Button>
             </div>
           </div>

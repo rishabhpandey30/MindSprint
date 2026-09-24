@@ -40,16 +40,14 @@ function AttemptRow({ attempt, index }) {
 
 export function Dashboard() {
   const navigate = useNavigate();
-  const { state, startAssessment, getSavedAssessment } = useAssessmentContext();
-  const { attemptHistory } = state;
-  const savedAssessment = getSavedAssessment();
+  const { attemptHistory, startAssessment, getSavedAssessment } = useAssessmentContext();
+  const savedAssessment = getSavedAssessment?.() ?? null;
 
   const stats = aggregateAttemptStats(attemptHistory);
   const hasAttempts = attemptHistory.length > 0;
 
   const handleStart = () => {
-    const previousIds = state.questions?.map((q) => q.id) || [];
-    startAssessment(previousIds);
+    startAssessment();
     navigate('/assessment');
   };
 

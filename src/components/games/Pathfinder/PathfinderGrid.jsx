@@ -5,12 +5,11 @@ import styles from './Pathfinder.module.css';
 export default function PathfinderGrid({
   gridSize,
   tiles,
-  selectedTile,
+  selectedId,
   solvedRouteSet,
   onTileClick,
   disabled,
 }) {
-  // Sort tiles by row and column to ensure correct grid positioning
   const sortedTiles = [...tiles].sort((a, b) => a.r - b.r || a.c - b.c);
 
   return (
@@ -21,21 +20,16 @@ export default function PathfinderGrid({
         gridTemplateRows: `repeat(${gridSize}, minmax(0, 1fr))`,
       }}
     >
-      {sortedTiles.map((tile) => {
-        const isSelected = selectedTile?.id === tile.id;
-        const isPartOfSolvedPath = solvedRouteSet.has(`${tile.r},${tile.c}`);
-
-        return (
-          <PathTile
-            key={tile.id}
-            tile={tile}
-            isSelected={isSelected}
-            isPartOfSolvedPath={isPartOfSolvedPath}
-            onClick={onTileClick}
-            disabled={disabled}
-          />
-        );
-      })}
+      {sortedTiles.map((tile) => (
+        <PathTile
+          key={tile.id}
+          tile={tile}
+          isSelected={selectedId === tile.id}
+          isPartOfSolvedPath={solvedRouteSet.has(`${tile.r},${tile.c}`)}
+          onClick={onTileClick}
+          disabled={disabled}
+        />
+      ))}
     </div>
   );
 }
